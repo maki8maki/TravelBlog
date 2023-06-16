@@ -1,0 +1,6 @@
+.DS_Store
+
+docker/mysql/data/*
+!docker/mysql/data/.gitkeep
+.env
+.vscode
