@@ -1,0 +1,26 @@
+{
+	"name": "PHP-MySQL",
+    "dockerComposeFile": "docker-compose.yml",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"mosapride.zenkaku",
+				"mhutchie.git-graph",
+				"shardulm94.trailing-spaces",
+				"formulahendry.auto-close-tag",
+				"formulahendry.auto-rename-tag",
+				"vincaslt.highlight-matching-tag",
+				"ecmel.vscode-html-css",
+				"bradgashler.htmltagwrap",
+				"zobo.php-intellisense",
+				"junstyle.php-cs-fixer",
+				"neilbrayfield.php-docblocker",
+				"george-alisson.html-preview-vscode",
+				"DavidAnson.vscode-markdownlint"
+			]
+		}
+	},
+    "service": "app",
+	"workspaceFolder": "/workdir",
+	"shutdownAction": "stopCompose"
+}
