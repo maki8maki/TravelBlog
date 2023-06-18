@@ -6,10 +6,8 @@
 </head>
 <body>
     <?php
-        $dsn = 'mysql:dbname=travelblog;host=db';
-        $user = 'root';
-        $password = 'pass';
-        $pdo = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
+        include "basic.php";
+        $pdo = db_connection();
 
         phpinfo();
     ?>
