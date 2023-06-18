@@ -16,7 +16,8 @@
 				"junstyle.php-cs-fixer",
 				"neilbrayfield.php-docblocker",
 				"george-alisson.html-preview-vscode",
-				"DavidAnson.vscode-markdownlint"
+				"DavidAnson.vscode-markdownlint",
+				"yzhang.markdown-all-in-one"
 			]
 		}
 	},
