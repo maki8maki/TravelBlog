@@ -1,5 +1,10 @@
 # TravelBlog
 
+## To Do
+
+* login.php -> マイページへの遷移
+* アカウント新規登録
+
 ## 使い方
 
 * ./bin/set-env-ugid.shを実行し，.devcontainer/.envに情報を記入する（最初のみ）

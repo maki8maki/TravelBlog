@@ -14,4 +14,15 @@
         $pdo = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
         return $pdo;
     }
+
+    function create_account_table($pdo) {
+        $table_name = "account";
+        $sql = "create table if not exists ".$table_name
+            ." ("
+            . "account_id INT AUTO_INCREMENT PRIMARY KEY,"
+            . "user_id char(32),"
+            . "password TEXT"
+            . ");";
+        return array($pdo->query($sql), $table_name);
+    }
 ?>
