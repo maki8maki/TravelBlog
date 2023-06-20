@@ -1,6 +1,6 @@
 <?php
     function db_connection() {
-        $filename = "txt/db_info.txt";
+        $filename = "/workdir/src/txt/db_info.txt";
         if (file_exists($filename)) {
             $lines = file($filename, FILE_IGNORE_NEW_LINES);
             $dbname = $lines[0];
@@ -20,7 +20,7 @@
         $sql = "create table if not exists ".$table_name
             ." ("
             . "account_id INT AUTO_INCREMENT PRIMARY KEY,"
-            . "user_id char(32),"
+            . "user_name char(32),"
             . "password TEXT"
             . ");";
         return array($pdo->query($sql), $table_name);
