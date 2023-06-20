@@ -6,7 +6,7 @@
 </head>
 <body>
     <?php
-        include "basic.php";
+        include "lib/basic.php";
         $pdo = db_connection();
 
         phpinfo();
