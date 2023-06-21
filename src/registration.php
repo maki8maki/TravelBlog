@@ -30,7 +30,7 @@
                     $sql -> execute();
                     $tag = TRUE;
                     $output =  "アカウントの登録を完了しました。<br>";
-                    // マイページへの遷移
+                    $_SESSION["user_name"] = $user_name;
                 }
             }
         }
@@ -54,6 +54,12 @@
         <input type="password" name="password" placeholder="パスワード">
         <input type="hidden" name="POST_TOKEN" value="<?php echo $_SESSION["POST_TOKEN"]; ?>"/>
         <input type="submit" name="registration" value="登録">
+    </form>
+    <?php
+        } else {
+    ?>
+    <form action="./mypage.php" method="post">
+        <input type="submit" name="transition" value="マイページへ移動">
     </form>
     <?php
         }
