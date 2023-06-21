@@ -24,7 +24,6 @@
                     // マイページへの遷移
                 } else {
                     // ログイン失敗
-
                     $output =  "ログインに失敗しました。ユーザー名またはパスワードが異なります。<br>";
                 }
             }
@@ -32,6 +31,7 @@
     }
     $_SESSION["POST_TOKEN"] = uniqid();
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>

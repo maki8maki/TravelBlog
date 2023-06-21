@@ -37,6 +37,7 @@
     }
     $_SESSION["POST_TOKEN"] = uniqid();
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
