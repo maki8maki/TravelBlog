@@ -21,7 +21,8 @@
                 $sql -> execute();
                 if ($results = $sql -> fetchAll()) {
                     // ログイン成功
-                    // マイページへの遷移
+                    $_SESSION["user_name"] = $user_name;
+                    header("Location: ./mypage.php");
                 } else {
                     // ログイン失敗
                     $output =  "ログインに失敗しました。ユーザー名またはパスワードが異なります。<br>";
