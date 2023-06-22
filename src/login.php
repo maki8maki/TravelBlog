@@ -4,7 +4,7 @@
 
     $pdo = db_connection();
 
-    // テーブルの作成
+    // アカウントテーブルの作成
     [$stmt, $table_name] = create_account_table($pdo);
 
     $user_name = "";
@@ -25,7 +25,7 @@
                     header("Location: ./mypage.php");
                 } else {
                     // ログイン失敗
-                    $output =  "ログインに失敗しました。ユーザー名またはパスワードが異なります。<br>";
+                    $output .=  "ログインに失敗しました。ユーザー名またはパスワードが異なります。\n\t";
                 }
             }
         }
@@ -40,7 +40,8 @@
     <title>ログインページ</title>
 </head>
 <body>
-    <?php echo $output ?>
+    <?php echo $output; ?>
+
     <form action="" method="post">
         <input type="text" name="user_name" placeholder="ユーザー名" value=<?= $user_name ?>>
         <input type="password" name="password" placeholder="パスワード">
