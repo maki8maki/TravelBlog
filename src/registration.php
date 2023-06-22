@@ -4,12 +4,12 @@
 
     $pdo = db_connection();
 
-    // テーブルの作成
+    // アカウントテーブルの作成
     [$stmt, $table_name] = create_account_table($pdo);
 
     $user_name = "";
     $output = "";
-    $tag = FALSE;
+    $has_created  = FALSE;
     if (isset($_REQUEST["POST_TOKEN"]) && $_REQUEST["POST_TOKEN"] === $_SESSION["POST_TOKEN"]) {
         if (isset($_POST['registration'])) {
             if(!empty($_POST["user_name"]) && trim($_POST["user_name"]) != "" && !empty($_POST["password"]) && trim($_POST["password"]) != "") {
@@ -21,15 +21,15 @@
                 $sql -> execute();
                 if ($results = $sql -> fetchAll()) {
                     // 同じユーザー名が既に存在する
-                    $output =  "既に存在するユーザー名です。ユーザー名を変更して下さい。<br>";
+                    $output .=  "既に存在するユーザー名です。ユーザー名を変更して下さい。\n\t";
                 } else {
                     // 同じユーザー名が存在しないならアカウントを登録
                     $sql = $pdo -> prepare("insert into ".$table_name."(user_name, password) values (:user_name, :password)");
                     $sql -> bindParam(':user_name', $user_name, PDO::PARAM_STR);
                     $sql -> bindParam(':password', $password, PDO::PARAM_STR);
                     $sql -> execute();
-                    $tag = TRUE;
-                    $output =  "アカウントの登録を完了しました。<br>";
+                    $has_created  = TRUE;
+                    $output .=  "アカウントの登録を完了しました。\n\t";
                     $_SESSION["user_name"] = $user_name;
                 }
             }
@@ -47,7 +47,7 @@
 <body>
     <?php
         echo $output;
-        if (!$tag){
+        if (!$has_created) {
     ?>
     <form action="" method="post">
         <input type="text" name="user_name" placeholder="ユーザー名" value=<?= $user_name ?>>
