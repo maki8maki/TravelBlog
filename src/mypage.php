@@ -17,7 +17,6 @@
         // ログアウト状態
         header("Location: ./login.php");
     }
-    // $_SESSION["POST_TOKEN"] = uniqid();
 ?>
 
 <!DOCTYPE html>
