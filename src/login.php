@@ -23,6 +23,7 @@
                     // ログイン成功
                     $_SESSION["user_name"] = $user_name;
                     header("Location: ./mypage.php");
+                    exit();
                 } else {
                     // ログイン失敗
                     $output .=  "ログインに失敗しました。ユーザー名またはパスワードが異なります。\n\t";
