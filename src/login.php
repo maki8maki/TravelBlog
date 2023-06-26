@@ -21,12 +21,13 @@
                 $sql -> execute();
                 if ($results = $sql -> fetchAll()) {
                     // ログイン成功
+                    $_SESSION["account_id"] = $results[0]["account_id"];
                     $_SESSION["user_name"] = $user_name;
                     header("Location: ./mypage.php");
                     exit();
                 } else {
                     // ログイン失敗
-                    $output .=  "ログインに失敗しました。ユーザー名またはパスワードが異なります。\n\t";
+                    $output .=  "ログインに失敗しました。ユーザー名またはパスワードが異なります。<br>\n\t";
                 }
             }
         }

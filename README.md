@@ -2,6 +2,11 @@
 
 ## To Do
 
+* 編集ページ
+  * 編集
+  * 画像
+  * 表示
+
 ## 使い方
 
 * ./bin/set-env-ugid.shを実行し，.devcontainer/.envに情報を記入する（最初のみ）
