@@ -21,15 +21,30 @@
                 $sql -> execute();
                 if ($results = $sql -> fetchAll()) {
                     // 同じユーザー名が既に存在する
-                    $output .=  "既に存在するユーザー名です。ユーザー名を変更して下さい。\n\t";
+                    $output .=  "既に存在するユーザー名です。ユーザー名を変更して下さい。<br>\n\t";
                 } else {
                     // 同じユーザー名が存在しないならアカウントを登録
                     $sql = $pdo -> prepare("insert into ".$table_name."(user_name, password) values (:user_name, :password)");
                     $sql -> bindParam(':user_name', $user_name, PDO::PARAM_STR);
                     $sql -> bindParam(':password', $password, PDO::PARAM_STR);
                     $sql -> execute();
+                    // 投稿を保存するテーブルを作成
+                    $sql = $pdo -> prepare("select account_id from ".$table_name." where user_name=:user_name limit 1");
+                    $sql -> bindParam(':user_name', $user_name, PDO::PARAM_STR);
+                    $sql -> execute();
+                    $account_id = ($sql -> fetchAll())[0]["account_id"];
+                    $maintable_name = "maincontents_".$account_id;
+                    $sql = "create table if not exists ".$maintable_name
+                        ." ("
+                        . "maincontents_id INT AUTO_INCREMENT PRIMARY KEY,"
+                        . "title TEXT,"
+                        . "contents TEXT,"
+                        . "date datetime"
+                        . ");";
+                    $pdo->query($sql);
                     $has_created  = TRUE;
-                    $output .=  "アカウントの登録を完了しました。\n\t";
+                    $output .=  "アカウントの登録を完了しました。<br>\n\t";
+                    $_SESSION["account_id"] = $account_id;
                     $_SESSION["user_name"] = $user_name;
                 }
             }
