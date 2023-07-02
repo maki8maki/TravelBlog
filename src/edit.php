@@ -1,7 +1,7 @@
 <?php
     session_start();
-    include "lib/basic.php";
-    include "lib/class.php";
+    include_once "lib/basic.php";
+    include_once "lib/class.php";
 
     $pdo = db_connection();
 
@@ -19,6 +19,7 @@
             $totalpost = new TotalPosting($maintable_name);
         }
         if (isset($_POST["cancel"])) {
+            $totalpost -> reset();
             unset($_SESSION["totalpost"]);
             header("Location: ./mypage.php");
             exit();
@@ -28,10 +29,11 @@
                 . "maincontents_id INT AUTO_INCREMENT PRIMARY KEY,"
                 . "title TEXT,"
                 . "contents TEXT,"
+                . "img_name TEXT,"
                 . "date datetime"
                 . ");";
             $pdo->query($sql);
-            $totalpost -> postAll($pdo);
+            $totalpost -> postAll($pdo, $account_id);
             unset($_SESSION["totalpost"]);
             header("Location: ./mypage.php");
             exit();
@@ -39,9 +41,9 @@
         if (isset($_REQUEST["POST_TOKEN"]) && $_REQUEST["POST_TOKEN"] === $_SESSION["POST_TOKEN"]) {
             if (isset($_POST["confirm"])) {
                 if (!$totalpost->set_maintitle) {
-                    $totalpost -> inputMain($pdo, $_POST["title"], $_POST["contents"]);
+                    $totalpost -> inputMain($pdo, $_POST["title"], $_POST["contents"], $_FILES["image"]);
                 } else {
-                    $totalpost -> inputSub($pdo, $_POST["subtitle"], $_POST["contents"]);
+                    $totalpost -> inputSub($pdo, $_POST["subtitle"], $_POST["contents"], $_FILES["image"]);
                 }
             }
         }
@@ -65,11 +67,13 @@
         echo $output;
         echo $user_name."\n";
     ?>
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         <input type="text" name=<?php echo !$totalpost->set_maintitle ? "title" : "subtitle" ?> placeholder=<?php echo !$totalpost->set_maintitle ? "タイトル" : "サブタイトル" ?>>
         <br>
         <textarea name="contents" rows="5" cols="30" wrap="soft"></textarea>
         <input type="hidden" name="POST_TOKEN" value="<?php echo $_SESSION["POST_TOKEN"]; ?>"/>
+        <br>
+        <input type="file" name="image" accept="image/*">
         <br>
         <input type="submit" name="confirm" value="確認">
     </form>
