@@ -8,7 +8,7 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 RUN apt-get update && \
     apt-get install -y libonig-dev && \
     apt-get install -y git vim && \
-    docker-php-ext-install pdo_mysql mysqli mbstring
+    docker-php-ext-install pdo_mysql mysqli mbstring exif
 
 WORKDIR /workdir
 
