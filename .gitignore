@@ -4,3 +4,7 @@ docker/mysql/data/*
 !docker/mysql/data/.gitkeep
 .env
 .vscode
+src/imgs/*
+!src/imgs/.gitkeep
+src/tmp/*
+!src/tmp/.gitkeep

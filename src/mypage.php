@@ -54,12 +54,18 @@
                 $maincontents_id = $result["maincontents_id"];
                 echo $result["title"]."(".$result["date"].")<br>";
                 echo $result["contents"]."<br>";
+                if(!empty($result["img_name"])) {
+                    echo "<img src='imgs/".$result["img_name"]."' style='width: 250px;'><br>";
+                }
                 $subtable_name = "subcontents_".$maincontents_id;
                 $sql = $pdo -> query("select * from ".$subtable_name);
                 $subresults = $sql -> fetchAll();
                 foreach ($subresults as $subresult) {
                     echo $subresult["title"]."<br>";
                     echo $subresult["contents"]."<br>";
+                    if(!empty($subresult["img_name"])) {
+                        echo "<img src='imgs/".$subresult["img_name"]."' style='width: 250px;'><br>";
+                    }
                 }
             }
         }
