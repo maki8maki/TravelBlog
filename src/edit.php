@@ -51,6 +51,11 @@
                 $contents = htmlspecialchars_decode(br2nl($totalpost->subs[$num-1]->contents));
                 $_SESSION["elem_num"] = $num;
             }
+        } elseif (isset($_POST["delete"])) {
+            if (!empty($_POST["elem_num"])) {
+                $num = $_POST["elem_num"];
+                array_splice($totalpost->subs, $num-1, 1);
+            }
         }
         if (isset($_REQUEST["POST_TOKEN"]) && $_REQUEST["POST_TOKEN"] === $_SESSION["POST_TOKEN"]) {
             if (isset($_POST["confirm"])) {
@@ -108,6 +113,9 @@
     <form action="" method="post">
         <input type="submit" name="cancel" value="キャンセル">
     </form>
-    <?php $totalpost -> displayAll(); ?>
+    <?php
+        include_once "lib/script.php";
+        $totalpost -> displayAll();
+    ?>
 </body>
 </html>
