@@ -50,10 +50,15 @@
                 echo "<form action='' method='post' style='display: inline'>\n\t";
                 echo "<input type='hidden' name='elem_num' value=".$num.">";
                 echo "<input type='submit' name='edit' value='編集'>\n\t";
+                echo "</form>\n\t";
                 if ($num != 0) {
+                    echo "<form action='' method='post' onsubmit='return delete_check()' style='display: inline'>\n\t";
+                    echo "<input type='hidden' name='elem_num' value=".$num.">";
                     echo "\t<input type='submit' name='delete' value='削除'>\n\t";
+                    echo "</form><br>\n\t";
+                } else {
+                    echo "<br>\n\t";
                 }
-                echo "</form><br>\n\t";
                 echo $this->contents."<br>\n\t";
                 if (!empty($this->img_name)) {
                     echo "<img src='tmp/".$this->img_name."' style='width: 250px;'><br>\n\t";
