@@ -18,7 +18,7 @@
                 }
                 return TRUE;
             } else {
-                echo "空欄があります。";
+                echo "空欄があります。<br>\n\t";
                 return FALSE;
             }
         }
@@ -43,10 +43,17 @@
             $sql -> execute();
         }
 
-        public function displayElement()
+        public function displayElement($num)
         {
             if (!empty($this->title) && !empty($this->contents)) {
-                echo $this->title."<br>\n";
+                echo $this->title."\n";
+                echo "<form action='' method='post' style='display: inline'>\n\t";
+                echo "<input type='hidden' name='elem_num' value=".$num.">";
+                echo "<input type='submit' name='edit' value='編集'>\n\t";
+                if ($num != 0) {
+                    echo "\t<input type='submit' name='delete' value='削除'>\n\t";
+                }
+                echo "</form><br>\n\t";
                 echo $this->contents."<br>\n\t";
                 if (!empty($this->img_name)) {
                     echo "<img src='tmp/".$this->img_name."' style='width: 250px;'><br>\n\t";
@@ -83,6 +90,8 @@
             if (!empty($img_file["name"])) {
                 if (exif_imagetype($img_file["tmp_name"])){
                     $_img_file = $img_file;
+                } else {
+                    echo $img_file["name"]."は画像ではありません。<br>\n\t";
                 }
             }
             $this -> set_maintitle = $this -> main -> inputElement($pdo, $title, $contents, $_img_file);
@@ -122,9 +131,12 @@
 
         public function displayAll()
         {
-            $this -> main -> displayElement();
+            echo "<br>";
+            $this -> main -> displayElement(0);
+            $i = 1;
             foreach ($this->subs as $sub) {
-                $sub -> displayElement();
+                $sub -> displayElement($i);
+                $i += 1;
             }
         }
 

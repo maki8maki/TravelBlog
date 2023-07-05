@@ -36,7 +36,7 @@
         if (isset($_SESSION["user_name"])) {
     ?>
     <form action="./edit.php" method="post">
-        <input type="submit" name="edit" value="投稿">
+        <input type="submit" name="edit_mypage" value="投稿">
     </form>
     <form action="" method="post">
         <input type="submit" name="logout" value="ログアウト">

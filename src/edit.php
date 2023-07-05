@@ -8,6 +8,8 @@
     $output = "";
     $account_id = "";
     $user_name = "";
+    $title = "";
+    $contents = "";
     if (isset($_SESSION["user_name"])) {
         // ログイン状態
         $account_id = $_SESSION["account_id"];
@@ -20,6 +22,7 @@
         }
         if (isset($_POST["cancel"])) {
             $totalpost -> reset();
+            unset($_SESSION["elem_num"]);
             unset($_SESSION["totalpost"]);
             header("Location: ./mypage.php");
             exit();
@@ -37,13 +40,29 @@
             unset($_SESSION["totalpost"]);
             header("Location: ./mypage.php");
             exit();
+        } elseif (isset($_POST["edit"])) {
+            $num = $_POST["elem_num"];
+            if ($num == 0) {
+                $title = htmlspecialchars_decode($totalpost->main->title);
+                $contents = htmlspecialchars_decode(br2nl($totalpost->main->contents));
+                $totalpost->set_maintitle = FALSE;
+            } else {
+                $title = htmlspecialchars_decode($totalpost->subs[$num-1]->title);
+                $contents = htmlspecialchars_decode(br2nl($totalpost->subs[$num-1]->contents));
+                $_SESSION["elem_num"] = $num;
+            }
         }
         if (isset($_REQUEST["POST_TOKEN"]) && $_REQUEST["POST_TOKEN"] === $_SESSION["POST_TOKEN"]) {
             if (isset($_POST["confirm"])) {
                 if (!$totalpost->set_maintitle) {
                     $totalpost -> inputMain($pdo, $_POST["title"], $_POST["contents"], $_FILES["image"]);
                 } else {
-                    $totalpost -> inputSub($pdo, $_POST["subtitle"], $_POST["contents"], $_FILES["image"]);
+                    if (!isset($_SESSION["elem_num"])) {
+                        $totalpost -> inputSub($pdo, $_POST["subtitle"], $_POST["contents"], $_FILES["image"]);
+                    } else {
+                        $totalpost -> subs[$_SESSION["elem_num"]-1] -> inputElement($pdo, $_POST["subtitle"], $_POST["contents"], $_FILES["image"]);
+                        unset($_SESSION["elem_num"]);
+                    }
                 }
             }
         }
@@ -68,10 +87,10 @@
         echo $user_name."\n";
     ?>
     <form action="" method="post" enctype="multipart/form-data">
-        <input type="text" name=<?php echo !$totalpost->set_maintitle ? "title" : "subtitle" ?> placeholder=<?php echo !$totalpost->set_maintitle ? "タイトル" : "サブタイトル" ?>>
+        <input type="text" name=<?php echo !$totalpost->set_maintitle ? "title" : "subtitle" ?> placeholder=<?php echo !$totalpost->set_maintitle ? "タイトル" : "サブタイトル" ?> value=<?php echo $title ?>>
         <br>
-        <textarea name="contents" rows="5" cols="30" wrap="soft"></textarea>
-        <input type="hidden" name="POST_TOKEN" value="<?php echo $_SESSION["POST_TOKEN"]; ?>"/>
+        <textarea name="contents" rows="5" cols="30" wrap="soft"><?php echo $contents ?></textarea>
+        <input type="hidden" name="POST_TOKEN" value=<?php echo $_SESSION["POST_TOKEN"]; ?>>
         <br>
         <input type="file" name="image" accept="image/*">
         <br>

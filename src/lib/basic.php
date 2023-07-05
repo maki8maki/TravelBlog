@@ -25,4 +25,9 @@
             . ");";
         return array($pdo->query($sql), $table_name);
     }
+
+    function br2nl($string)
+    {
+        return preg_replace('/<br[[:space:]]*\/?[[:space:]]*>/i', "", $string);
+    }
 ?>
