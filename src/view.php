@@ -3,59 +3,39 @@
     include "lib/basic.php";
 
     $pdo = db_connection();
-
-    $output = "";
-    $account_id = "";
-    $user_name = "";
-    if (isset($_POST["logout"])) {
-        // ログアウト処理
-        unset($_SESSION["account_id"]);
-        unset($_SESSION["user_name"]);
-        $output .= '<a href="./login.php">ログインページ</a>に戻る'."\n\t";
-    } elseif (isset($_SESSION["user_name"])) {
-        // ログイン状態
-        $account_id = $_SESSION["account_id"];
-        $user_name = $_SESSION["user_name"];
-    } else {
-        // ログアウト状態
-        header("Location: ./login.php");
-        exit();
-    }
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>マイページ</title>
+    <title>閲覧ページ</title>
 </head>
 <body>
-    <?php
-        echo $output;
-        echo $user_name."\n\t";
-        if (isset($_SESSION["user_name"])) {
-    ?>
+    <?php if (!isset($_SESSION["user_name"])) { ?>
     <form action="./edit.php" method="post" style='display: inline'>
-        <input type="submit" name="edit_mypage" value="投稿">
+        <input type="submit" name="login" value="ログイン">
     </form>
-    <form action="./view.php" method="post" style='display: inline'>
-        <input type="submit" name="view" value="閲覧ページ">
+    <form action="./registration.php" method="post" style='display: inline'>
+        <input type="submit" name="mypage" value="新規登録">
     </form>
-    <form action="" method="post" style='display: inline'>
-        <input type="submit" name="logout" value="ログアウト">
+    <?php } else { ?>
+    <form action="./mypage.php" method="post" style='display: inline'>
+        <input type="submit" name="mypage" value="マイページ">
     </form>
     <?php
         }
-        $maintable_name = "maincontents_".$account_id;
-        $sql = $pdo -> query("show tables like '".$maintable_name."'");
-        if ($sql->rowCount() == 0) {
-            exit();
-        } else {
+        [$stmt, $table_name] = create_account_table($pdo);
+        $sql = $pdo -> query("select user_name, account_id from ".$table_name);
+        $accounts = $sql -> fetchAll();
+        foreach ($accounts as $account) {
+            $maintable_name = "maincontents_".$account["account_id"];
             $sql = $pdo -> query("select * from ".$maintable_name);
             $results = $sql -> fetchAll();
             foreach ($results as $result) {
                 $maincontents_id = $result["maincontents_id"];
-                echo "<h1>".$result["title"]."</h1>投稿日：".$result["date"]."<br>";
+                echo "<h1>".$result["title"]."</h1>";
+                echo "投稿者：".$account["user_name"]."　投稿日：".$result["date"]."<br>";
                 echo $result["contents"]."<br>";
                 if(!empty($result["img_name"])) {
                     echo "<img src='imgs/".$result["img_name"]."' style='width: 250px;'><br>";
